@@ -1,5 +1,6 @@
-from odoo import models, fields, api, _, exceptions
 from datetime import timedelta
+
+from odoo import models, fields, api, exceptions
 
 
 class AcademyCourse(models.Model):
