@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="action_academy_course_view" model="ir.actions.act_window">
+            <field name="name">Academy Course View</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">academy.course</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_fave">
+                    Academy Course
+                </p>
+            </field>
+        </record>
+        <!-- course form view -->
+        <record id="academy_course_form_view" model="ir.ui.view">
+            <field name="name">Academy Course Form View</field>
+            <field name="model">academy.course</field>
+            <field name="arch" type="xml">
+                <form string="Course Form">
+                    <sheet>
+                        <group>
+                            <field name="open_academy_course_name"/>
+                            <field name="responsible_id"/>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="course_description"/>
+                            </page>
+                            <page string="sessions">
+                                <field name="session_ids">
+                                    <tree string="Registered sessions">
+                                        <field name="session_name"/>
+                                        <field name="instructor_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!-- course tree view -->
+        <record id="academy_course_tree_view" model="ir.ui.view">
+            <field name="name">Academy Course Tree View</field>
+            <field name="model">academy.course</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="open_academy_course_name"/>
+                    <field name="responsible_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- course search view -->
+        <record id="academy_course_search" model="ir.ui.view">
+            <field name="name">academy.course.search</field>
+            <field name="model">academy.course</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="open_academy_course_name"/>
+                    <field name="course_description"/>
+                    <filter name="my_courses" string="My Courses" domain="[('responsible_id', '=', uid)]"/>
+                    <group string="Group By">
+                        <filter name="by_responsible" string="Responsible" context="{'group_by': 'responsible_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <menuitem id="open_academy_menu"
+                  name="Open Academy"
+                  action="action_academy_course_view"
+        />
+        <menuitem id="academy_course"
+                  name="Open Academy"
+                  parent="open_academy_menu"
+        />
+        <menuitem id="academy_course_submenu"
+                  name="Academy Course"
+                  action="action_demo_data_course_view"
+                  parent="academy_course"
+        />
+        <!-- session form view -->
+
+        <!-- session form view -->
+        <record id="session_form_view" model="ir.ui.view">
+            <field name="name">session.form</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <form string="Session Form">
+                    <sheet>
+                        <group>
+                            <group string="General">
+                                <field name="course_id"/>
+                                <field name="session_name"/>
+                                <field name="instructor_id"/>
+                                <field name="active"/>
+                            </group>
+                            <group string="Schedule">
+                                <field name="start_date"/>
+                                <field name="duration"/>
+                                <field name="seats"/>
+                                <field name="taken_seats" widget="progressbar"/>
+                                <field name="attendee_ids" widget="many2many_tags"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- session tree/list view -->
+        <record id="session_tree_view" model="ir.ui.view">
+            <field name="name">session.tree</field>
+            <field name="model">openacademy.session</field>
+            <field name="arch" type="xml">
+                <tree string="Session Tree" decoration-primary="duration&lt;5" decoration-danger="duration&gt;15">
+                    <field name="session_name"/>
+                    <field name="course_id"/>
+                    <field name="duration" invisible="1"/>
+                    <field name="taken_seats" widget="progressbar"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="session_list_action" model="ir.actions.act_window">
+            <field name="name">Sessions</field>
+            <field name="res_model">openacademy.session</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem id="session_menu"
+                  name="Sessions"
+                  action="session_list_action"
+                  parent="academy_course"
+        />
+    </data>
+</odoo>

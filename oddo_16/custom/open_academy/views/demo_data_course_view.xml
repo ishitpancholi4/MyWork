@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="action_demo_data_course_view" model="ir.actions.act_window">
+            <field name="name">Demo Data Course View</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">demo.data.course</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_fave">
+                    Academy Course
+                </p>
+            </field>
+        </record>
+
+        <record id="demo_data_course_form_view" model="ir.ui.view">
+            <field name="name">Demo Data Course Form View</field>
+            <field name="model">demo.data.course</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="academy_course"/>
+                            <field name="course_description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="demo_data_course_tree_view" model="ir.ui.view">
+            <field name="name">Demo Data Course Tree View</field>
+            <field name="model">demo.data.course</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="academy_course"/>
+                    <field name="course_description"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>
