@@ -14,13 +14,14 @@
     'data': [
         'security/ir.model.access.csv',
         'data/demo_data_course.xml',
+        'wizard/open_academy_wizard_view.xml',
         'views/academy_course_view.xml',
         'views/res_partner_view.xml',
         'views/session_board.xml',
         'reports/openacademy_report.xml',
 
     ],
-    'images': ['static/description/open_academy.png'],
+    'images': ['static/description/icon.png'],
 
     'author': 'Vraja Technologies',
     'maintainer': 'Vraja Technologies',
