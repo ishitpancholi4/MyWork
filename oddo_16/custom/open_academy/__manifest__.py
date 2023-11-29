@@ -3,20 +3,25 @@
     'name': 'Open Academy',
     'category': '',
     'version': '16.0',
-    'summary': """ Managments are made up here""",
-    'description': """ Open Academy Management""",
+    'summary': """ Managments are made up here Open Academy""",
+    'description': """ Open Academy module for managing trainings:
+            - training courses
+            - training sessions
+            - attendees registration
+            """,
     'depends': ['base','board'],
 
     'data': [
         'security/ir.model.access.csv',
-        'views/academy_course_view.xml',
-        'views/demo_data_course_view.xml',
-        'views/res_partner_view.xml',
-        'views/opneacademy_session_report.xml',
         'data/demo_data_course.xml',
+        'views/academy_course_view.xml',
+        'views/res_partner_view.xml',
+        'views/session_board.xml',
+        'reports/openacademy_report.xml',
 
     ],
-    'images': ['static/description/icon.png'],
+    'images': ['static/description/open_academy.png'],
+
     'author': 'Vraja Technologies',
     'maintainer': 'Vraja Technologies',
     'website': 'https://www.vrajatechnologies.com',

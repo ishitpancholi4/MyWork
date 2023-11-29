@@ -1,5 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_academy_course,academy.course,model_academy_course,base.group_user,1,1,1,1
-access_demo_data_course,demo.data.course,model_demo_data_course,base.group_user,1,1,1,1
 access_openacademy_session,openacademy.session,model_openacademy_session,base.group_user,1,1,1,1
 

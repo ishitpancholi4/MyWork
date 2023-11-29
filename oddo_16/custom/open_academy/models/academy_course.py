@@ -1,17 +1,27 @@
 from datetime import timedelta
-
 from odoo import models, fields, api, exceptions
 
 
 class AcademyCourse(models.Model):
     _name = 'academy.course'
-    _description = 'Academy Course'
-    _rec_name = 'open_academy_course_name'
+    _description = ' OpenAcademy Course'
+    _rec_name =  'course_name'
 
-    open_academy_course_name = fields.Many2one('demo.data.course', string='Academy Course', help='Select Your Course')
-    course_description = fields.Text(string='Course Description', related='open_academy_course_name.course_description')
+    course_name = fields.Char(string='Academy Course', help='Select Your Course')
+    course_description = fields.Text(string='Course Description')
+
     responsible_id = fields.Many2one('res.users', ondelete='set null', string='Responsible', index=True)
     session_ids = fields.One2many('openacademy.session', 'course_id', string='Sessions')
+
+    def copy(self,default=None):
+        default = dict(default or {})
+        copied_count = self.search_count([("course_name","=like",u"Copy of {}%".format(self.course_name))])
+        if not copied_count:
+            new_name = u"Copy of {}".format(self.course_name)
+        else:
+            new_name = u"Copy of {} ({})".format(self.course_name,copied_count)
+        default["course_name"] = new_name
+        return super(AcademyCourse,self).copy(default)
 
 
 class OpenAcademySession(models.Model):
@@ -31,7 +41,7 @@ class OpenAcademySession(models.Model):
     taken_seats = fields.Float(string="Taken seats", compute='_taken_seats')
     active = fields.Boolean(default=True)
     attendees_count = fields.Integer(string="Attendees Count", compute="_get_attendees_count", store=True)
-    color = fields.Integer()
+    color = fields.Char()
 
     @api.depends('seats', 'attendee_ids')
     def _taken_seats(self):
@@ -40,6 +50,7 @@ class OpenAcademySession(models.Model):
                 r.taken_seats = 0.0
             else:
                 r.taken_seats = 100.0 * len(r.attendee_ids) / r.seats
+
 
     @api.depends('attendee_ids')
     def _get_attendees_count(self):
@@ -65,27 +76,28 @@ class OpenAcademySession(models.Model):
 
     @api.depends('start_date', 'duration')
     def _get_end_date(self):
-        for r in self:
-            if not (r.start_date and r.duration):
-                r.end_date = r.start_date
+        for rec in self:
+            if not (rec.start_date and rec.duration):
+                rec.end_date = rec.start_date
                 continue
             # Add duration to start_date but: Monday + 5 days = Saturday, so
             # subtract one second to get on Friday instead
-            duration = timedelta(days=r.duration, seconds=-1)
-            r.end_date = r.start_date + duration
+            duration = timedelta(days=rec.duration, seconds=-1)
+            rec.end_date = rec.start_date + duration
 
     def _set_end_date(self):
-        for r in self:
-            if not (r.start_date and r.end_date):
+        for rec in self:
+            if not (rec.start_date and rec.end_date):
                 continue
 
             # Compute the difference between dates, but: Friday - Monday = 4 days,
             # so add one day to get 5 days instead
+            rec.duration = (rec.end_date - rec.start_date).days + 1
 
-            r.duration = (r.end_date - r.start_date).days + 1
 
     @api.constrains('instructor_id', 'attendee_ids')
     def _check_instructor_not_in_attendees(self):
-        for r in self:
-            if r.instructor_id in r.attendee_ids:
+        for rec in self:
+            if rec.instructor_id in rec.attendee_ids:
                 raise exceptions.ValidationError("A session's instructor cannot be an attendee!!")
+
