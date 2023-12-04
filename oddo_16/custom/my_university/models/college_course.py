@@ -19,20 +19,6 @@ class College_Course(models.Model):
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         # @api.onchange('student_data')
         # def _onchange_name(self):
         #     self.student_stream = self.student_data

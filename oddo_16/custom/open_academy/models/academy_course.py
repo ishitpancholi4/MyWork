@@ -10,6 +10,7 @@ class AcademyCourse(models.Model):
     course_name = fields.Char(string='Academy Course', help='Select Your Course')
     course_description = fields.Text(string='Course Description', help='Course Descriptions')
 
+
     responsible_id = fields.Many2one('res.users', ondelete='set null', string='Responsible', index=True)
     session_ids = fields.One2many('openacademy.session', 'course_id', string='Sessions')
 
@@ -29,6 +30,7 @@ class OpenAcademySession(models.Model):
     _name = 'openacademy.session'
     _rec_name = 'session_name'
 
+
     session_name = fields.Char(string="Session Name", required=True, help='Enter Session Name')
     start_date = fields.Date(string="Start Date", default=fields.Date.today)
     end_date = fields.Date(string="End Date", store=True, compute="_get_end_date", inverse="_set_end_date")
@@ -43,6 +45,26 @@ class OpenAcademySession(models.Model):
     active = fields.Boolean(default=True)
     attendees_count = fields.Integer(string="Attendees Count", compute="_get_attendees_count", store=True)
     color = fields.Char()
+
+    def action_check_sheet(self):
+        if self.seats > 0:
+            return {
+                'name': self.session_name,
+                'view_type': 'tree',
+                'view_mode': 'tree',
+                'res_model': 'openacademy.session',
+                'type': 'ir.actions.act_window',
+            }
+
+    @api.constrains('session_name')
+    def session_name_validation(self):
+        if self.session_name == 'MBA':
+            raise exceptions.ValidationError('MBA is not in session')
+        elif self.session_name == 'Mba':
+            raise exceptions.ValidationError('Mba is not in session')
+        else:
+            print("session",self.session_name)
+
 
     # This function use for seats length
     @api.depends('seats', 'attendee_ids')
@@ -82,10 +104,12 @@ class OpenAcademySession(models.Model):
             if not (rec.start_date and rec.duration):
                 rec.end_date = rec.start_date
                 continue
+
             # Add duration to start_date but: Monday + 5 days = Saturday, so
             # subtract one second to get on Friday instead
             duration = timedelta(days=rec.duration, seconds=-1)
             rec.end_date = rec.start_date + duration
+
 
     def _set_end_date(self):
         for rec in self:
@@ -101,5 +125,4 @@ class OpenAcademySession(models.Model):
         for rec in self:
             if rec.instructor_id in rec.attendee_ids:
                 raise exceptions.ValidationError("A session's instructor cannot be an attendee!!")
-
 

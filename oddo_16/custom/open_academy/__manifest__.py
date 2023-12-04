@@ -13,6 +13,7 @@
 
     'data': [
         'security/ir.model.access.csv',
+        'security/security.xml',
         'data/demo_data_course.xml',
         'wizard/open_academy_wizard_view.xml',
         'views/academy_course_view.xml',
@@ -21,13 +22,12 @@
         'reports/openacademy_report.xml',
 
     ],
-    'images': ['static/description/icon.png'],
+    'images' : ['static/description/icon.png'],
 
     'author': 'Vraja Technologies',
     'maintainer': 'Vraja Technologies',
     'website': 'https://www.vrajatechnologies.com',
     'live_test_url': 'https://www.vrajatechnologies.com/contactus',
-    'demo': [],
     'installable': True,
     'application': True,
     'auto_install': False,

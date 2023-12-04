@@ -31,6 +31,8 @@
                                     <tree string="Registered sessions">
                                         <field name="session_name"/>
                                         <field name="instructor_id"/>
+                                        <field name="start_date"/>
+                                        <field name="end_date"/>
                                     </tree>
                                 </field>
                             </page>
@@ -94,6 +96,9 @@
             <field name="model">openacademy.session</field>
             <field name="arch" type="xml">
                 <form string="Session Form">
+                    <header>
+                        <button name="action_check_sheet" string="Check Sheet" type="object" class="btn-primary"/>
+                    </header>
                     <sheet>
                         <group>
                             <group string="General">
@@ -115,7 +120,6 @@
             </field>
         </record>
 
-
         <!-- session tree/list view -->
         <record id="session_tree_view" model="ir.ui.view">
             <field name="name">session.tree</field>
@@ -126,6 +130,7 @@
                     <field name="course_id"/>
                     <field name="duration" invisible="1"/>
                     <field name="taken_seats" widget="progressbar"/>
+                    <field name="seats"/>
                 </tree>
             </field>
         </record>
@@ -189,7 +194,7 @@
             <field name="arch" type="xml">
                 <gantt string="Session Gantt" date_start="start_date" date_stop="end_date"
                        default_group_by="instructor_id">
-                    <!--                <field name="session_name"/>-->
+                    <field name="session_name"/>
                 </gantt>
             </field>
         </record>

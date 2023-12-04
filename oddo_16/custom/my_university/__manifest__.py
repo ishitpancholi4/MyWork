@@ -5,14 +5,13 @@
     'version': '16.0',
     'summary': """ University""",
     'description': """ Module is for university """,
-    'depends': [],
+    'depends': ['open_academy'],
 
     'data': ['security/ir.model.access.csv',
              'views/university_view.xml',
              'views/college_course.xml',
+             'views/openacademy_session_inherit_view.xml',
              'wizard/college_university_wizard_view.xml',
-             # 'views/service_view.xml',
-             # 'views/query_view.xml'
              ],
 
     'images': [],

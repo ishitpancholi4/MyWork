@@ -51,5 +51,8 @@
             <field name="name">Teacher / Level 2</field>
         </record>
 
+        <record id="teacher3" model="res.partner.category">
+            <field name="name">Teacher / Level 3</field>
+        </record>
     </data>
 </odoo>

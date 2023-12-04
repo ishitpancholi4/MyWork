@@ -104,15 +104,5 @@
                   action="action_school_faculty_view"
                   parent="faculty_menu"
         />
-        <!--        <menuitem id="subject_tag"-->
-        <!--                  name="Subject"-->
-        <!--                  action="action_student_record_view"-->
-        <!--                  parent="student_record_menu"-->
-        <!--        />-->
-        <!--        <menuitem id="subject_tags_submenu"-->
-        <!--                  name="Subjects Record"-->
-        <!--                  action="action_subject_tags_view"-->
-        <!--                  parent="subject_tag"-->
-        <!--        />-->
     </data>
 </odoo>
