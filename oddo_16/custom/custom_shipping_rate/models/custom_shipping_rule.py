@@ -25,5 +25,5 @@ class CustomShipping(models.Model):
             , limit=1)
         return country
 
-    # country_id = fields.Many2one('res.country', string='Country', default=_get_default_country)
+    country_id = fields.Many2one('res.country', string='Country', default=_get_default_country)
 

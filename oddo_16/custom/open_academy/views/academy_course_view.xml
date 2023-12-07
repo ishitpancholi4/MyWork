@@ -97,7 +97,7 @@
             <field name="arch" type="xml">
                 <form string="Session Form">
                     <header>
-                        <button name="action_check_sheet" string="Check Sheet" type="object" class="btn-primary"/>
+                        <button name="get_us_country" string="Check Country" type="object" class="btn-primary"/>
                     </header>
                     <sheet>
                         <group>
@@ -110,11 +110,21 @@
                             <group string="Schedule">
                                 <field name="start_date"/>
                                 <field name="duration"/>
+<!--                                <field name="attendees_count"/>-->
                                 <field name="seats"/>
                                 <field name="taken_seats" widget="progressbar"/>
                                 <field name="attendee_ids" widget="many2many_tags"/>
                             </group>
                         </group>
+                        <notebook>
+                            <page string="Country">
+                                <field name="attendee_ids">
+                                    <tree>
+                                        <field name="country_id"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>

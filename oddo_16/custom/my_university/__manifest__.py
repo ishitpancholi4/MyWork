@@ -10,7 +10,7 @@
     'data': ['security/ir.model.access.csv',
              'views/university_view.xml',
              'views/college_course.xml',
-             'views/openacademy_session_inherit_view.xml',
+             # 'views/openacademy_session_inherit_view.xml',
              'wizard/college_university_wizard_view.xml',
              ],
 

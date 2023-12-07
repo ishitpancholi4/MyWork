@@ -1,20 +1,24 @@
 # -*- coding: utf-8 -*-pack
 {  # App information
-    'name': 'Real Estate',
-    'category': 'Real Estate/ Brokerage',
+    'name': 'Hotel Management',
+    'category': '',
     'version': '16.0',
-    'summary': """ Managments are made up here Real Estate""",
-    'description': """ 
-            - Real Estate,
-            - Brokrage,
-            - Selling Property
+    'summary': """ Managments are made up here Hotel Management""",
+    'description': """ Hotel Management module for 
+            - Restaurant
+            - Staff
+            - Hotel Room
+            - Banquent Hall
             """,
-    # 'depends': ['base','web'],
+    'depends': [],
 
     'data': [
         'security/ir.model.access.csv',
-        'views/real_estate_property_view.xml',
+        'views/hotel_customer_view.xml',
+        'views/hotel_restaurant_view.xml',
+        'data/demo_data_hotel_restaurant.xml',
     ],
+
     'images' : ['static/description/icon.png'],
 
     'author': 'Vraja Technologies',

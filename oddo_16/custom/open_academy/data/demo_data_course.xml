@@ -49,6 +49,15 @@
                 fundamental understanding of business and how various aspects of it apply to the real world.
             </field>
         </record>
+
+        <record id="demo_data_course_27" model="academy.course">
+            <field name="course_name">M.COM Master of Commerce.</field>
+            <field name="course_description">
+                Master of Commerce (MCom or M Comm; sometimes Magister Commercii as (MagComm or Mag. comm.) is a
+                postgraduate master's degree focusing on commerce-, accounting-, management- and economics-related
+                subjects.
+            </field>
+        </record>
     </data>
 </odoo>
 
