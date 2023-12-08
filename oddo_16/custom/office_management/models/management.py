@@ -5,6 +5,7 @@ from datetime import date
 from odoo.exceptions import ValidationError
 
 
+
 class OfficeStaff(models.Model):
     _name = "office.staff"
     _description = "This is management of office"

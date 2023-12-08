@@ -110,7 +110,6 @@
                             <group string="Schedule">
                                 <field name="start_date"/>
                                 <field name="duration"/>
-<!--                                <field name="attendees_count"/>-->
                                 <field name="seats"/>
                                 <field name="taken_seats" widget="progressbar"/>
                                 <field name="attendee_ids" widget="many2many_tags"/>
@@ -118,18 +117,13 @@
                         </group>
                         <notebook>
                             <page string="Country">
-                                <field name="attendee_ids">
-                                    <tree>
-                                        <field name="country_id"/>
-                                    </tree>
-                                </field>
+                                <field name="attendee_ids"/>
                             </page>
                         </notebook>
                     </sheet>
                 </form>
             </field>
         </record>
-
         <!-- session tree/list view -->
         <record id="session_tree_view" model="ir.ui.view">
             <field name="name">session.tree</field>

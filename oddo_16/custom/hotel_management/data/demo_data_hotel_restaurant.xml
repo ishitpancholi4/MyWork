@@ -29,5 +29,25 @@
             <field name="food_name">Veg Angare</field>
             <field name="food_price">170</field>
         </record>
+        <record id="menu_8" model="hotel.restaurant">
+            <field name="food_name">Jeera Rice</field>
+            <field name="food_price">90</field>
+        </record>
+        <record id="menu_9" model="hotel.restaurant">
+            <field name="food_name">Daal Fry</field>
+            <field name="food_price">110</field>
+        </record>
+        <record id="menu_10" model="hotel.restaurant">
+            <field name="food_name">Butter Roti</field>
+            <field name="food_price">25</field>
+        </record>
+        <record id="menu_11" model="hotel.restaurant">
+            <field name="food_name">Plain Roti</field>
+            <field name="food_price">18</field>
+        </record>
+        <record id="menu_13" model="hotel.restaurant">
+            <field name="food_name">Butter Naan</field>
+            <field name="food_price">30</field>
+        </record>
     </data>
 </odoo>

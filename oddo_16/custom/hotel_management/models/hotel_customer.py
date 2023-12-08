@@ -4,6 +4,7 @@ from odoo import models, fields
 class HotelCustomerForm(models.Model):
     _name = 'hotel.customer'
     _description = 'This model for customer details'
+    _rec_name = 'customer_name'
 
     customer_name = fields.Char(string='Customer Name', help='Enter Full Name')
     customer_age = fields.Integer(string='Age')
@@ -28,7 +29,8 @@ class CustomerRoomDetailLines(models.Model):
     _name = 'customer.room.detail.lines'
     _description = 'Customer Room Detai lLines'
 
-    room_no = fields.Integer(string='Room No')
+
+    room_no = fields.Char(string='Room No')
     checkin = fields.Date(string='CheckIn')
     checkout = fields.Date(string='CheckOut')
     customer_id = fields.Many2one('hotel.customer',string='Customer Name')

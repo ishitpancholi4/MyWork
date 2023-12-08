@@ -8,7 +8,7 @@ class AcademyCourse(models.Model):
     _rec_name = 'course_name'
 
     course_name = fields.Char(string='Academy Course', help='Select Your Course')
-    course_description = fields.Text(string='Course Description', help='Course Descriptions')
+    course_description = fields.Text(string='Course Description', help='Course Descriptions', size=10000)
 
     responsible_id = fields.Many2one('res.users', ondelete='set null', string='Responsible', index=True)
     session_ids = fields.One2many('openacademy.session', 'course_id', string='Sessions')
@@ -28,6 +28,7 @@ class AcademyCourse(models.Model):
 class OpenAcademySession(models.Model):
     _name = 'openacademy.session'
     _rec_name = 'session_name'
+
 
     session_name = fields.Char(string="Session Name", required=True, help='Enter Session Name')
     start_date = fields.Date(string="Start Date", default=fields.Date.today)
@@ -51,17 +52,10 @@ class OpenAcademySession(models.Model):
         return res
 
     @api.model
-    def get_us_country(self, country):
-        country = self.env['res.partner'].search([('country_id', '=', 'US'),])
-        return {
-            'name': country,
-            'view_type': 'tree',
-            'view_mode': 'tree',
-            'res_model': 'res.partner',
-            'type': 'ir.actions.act_window',
-            'target': 'new',
-            'domain': "[('country_id', '=', 'US')]",
-        }
+    def get_us_country(self, vals):
+        country = self.env['res.partner'].search([('country_id', '=', 'US')]).mapped('display_name')
+        for self.attendee_ids in country:
+            return
 
     @api.constrains('session_name')
     def session_name_validation(self):
@@ -72,7 +66,8 @@ class OpenAcademySession(models.Model):
         elif self.session_name == 'mba':
             raise exceptions.ValidationError('mba is not in session')
         else:
-            print("session", self.session_name)
+            return
+
 
     # This function use for seats length
     @api.depends('seats', 'attendee_ids')
