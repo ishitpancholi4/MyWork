@@ -8,7 +8,7 @@ class AcademyCourse(models.Model):
     _rec_name = 'course_name'
 
     course_name = fields.Char(string='Academy Course', help='Select Your Course')
-    course_description = fields.Text(string='Course Description', help='Course Descriptions', size=10000)
+    course_description = fields.Text(string='Course Description', help='Course Descriptions')
 
     responsible_id = fields.Many2one('res.users', ondelete='set null', string='Responsible', index=True)
     session_ids = fields.One2many('openacademy.session', 'course_id', string='Sessions')
@@ -27,6 +27,7 @@ class AcademyCourse(models.Model):
 
 class OpenAcademySession(models.Model):
     _name = 'openacademy.session'
+    _description = 'Open Academy Session'
     _rec_name = 'session_name'
 
 
@@ -44,6 +45,29 @@ class OpenAcademySession(models.Model):
     active = fields.Boolean()
     attendees_count = fields.Integer(string="Attendees Count", compute="_get_attendees_count", store=True)
     color = fields.Char()
+    email_sent = fields.Boolean('Email',default=False)
+
+
+
+    def action_send_session_by_email_cron(self):
+        session_ids = self.env['openacademy.session'].search([('email_sent', '=', False)])
+        for session in session_ids:
+            if session.email_sent is False:
+                session.action_send_session_by_email()
+                session.email_sent = True
+
+
+    def action_send_session_by_email(self):
+        # for attendee in self.attendee_ids:
+        ctx = {}
+        email_list = self.attendee_ids.mapped('email')
+        if email_list:
+            ctx['email_to'] = ','.join([email for email in email_list if email])
+            ctx['email_from'] = self.env.user.company_id.email
+            ctx['send_email'] = True
+            ctx['attendee'] = ''
+            template = self.env.ref('openacademy.email_template_openacademy_session')
+            template.with_context(ctx).send_mail(self.id, force_send=True, raise_exception=False)
 
     @api.model
     def create(self, vals):
@@ -51,11 +75,12 @@ class OpenAcademySession(models.Model):
         res.active = True
         return res
 
-    @api.model
-    def get_us_country(self, vals):
-        country = self.env['res.partner'].search([('country_id', '=', 'US')]).mapped('display_name')
-        for self.attendee_ids in country:
-            return
+    def get_us_country(self):
+        country = self.env['res.partner'].search([('country_id', '=', 'US')])
+        for rec in self:
+            rec.attendee_ids = country
+
+
 
     @api.constrains('session_name')
     def session_name_validation(self):
@@ -66,8 +91,7 @@ class OpenAcademySession(models.Model):
         elif self.session_name == 'mba':
             raise exceptions.ValidationError('mba is not in session')
         else:
-            return
-
+            print("Session:-",self.session_name)
 
     # This function use for seats length
     @api.depends('seats', 'attendee_ids')
@@ -78,28 +102,29 @@ class OpenAcademySession(models.Model):
             else:
                 r.taken_seats = 100.0 * len(r.attendee_ids) / r.seats
 
+
     @api.depends('attendee_ids')
     def _get_attendees_count(self):
         for r in self:
             r.attendees_count = len(r.attendee_ids)
 
     # this function use for verify valid seats
-    @api.onchange('seats', 'attendee_ids')
-    def _verify_valid_seats(self):
-        if self.seats < 0:
-            return {
-                'warning': {
-                    'title': "Incorrect 'seats' value",
-                    'message': "The number of available seats may not be negative",
-                },
-            }
-        if self.seats < len(self.attendee_ids):
-            return {
-                'warning': {
-                    'title': "Too many attendees",
-                    'message': "Increase seats or remove excess attendees",
-                },
-            }
+    # @api.onchange('seats', 'attendee_ids')
+    # def _verify_valid_seats(self):
+    #     if self.seats < 0:
+    #         return {
+    #             'warning': {
+    #                 'title': "Incorrect 'seats' value",
+    #                 'message': "The number of available seats may not be negative",
+    #             },
+    #         }
+    #     if self.seats < len(self.attendee_ids):
+    #         return {
+    #             'warning': {
+    #                 'title': "Too many attendees",
+    #                 'message': "Increase seats or remove excess attendees",
+    #             },
+    #         }
 
     @api.depends('start_date', 'duration')
     def _get_end_date(self):
@@ -117,7 +142,6 @@ class OpenAcademySession(models.Model):
         for rec in self:
             if not (rec.start_date and rec.end_date):
                 continue
-
             # Compute the difference between dates, but: Friday - Monday = 4 days,
             # so add one day to get 5 days instead
             rec.duration = (rec.end_date - rec.start_date).days + 1
@@ -127,3 +151,5 @@ class OpenAcademySession(models.Model):
         for rec in self:
             if rec.instructor_id in rec.attendee_ids:
                 raise exceptions.ValidationError("A session's instructor cannot be an attendee!!")
+
+

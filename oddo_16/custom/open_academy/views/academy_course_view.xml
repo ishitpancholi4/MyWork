@@ -106,18 +106,19 @@
                                 <field name="session_name"/>
                                 <field name="instructor_id"/>
                                 <field name="active"/>
+                                <field name="email_sent"/>
                             </group>
                             <group string="Schedule">
                                 <field name="start_date"/>
                                 <field name="duration"/>
                                 <field name="seats"/>
                                 <field name="taken_seats" widget="progressbar"/>
-                                <field name="attendee_ids" widget="many2many_tags"/>
+<!--                                <field name="attendee_ids" widget="many2many_tags"/>-->
                             </group>
                         </group>
                         <notebook>
                             <page string="Country">
-                                <field name="attendee_ids"/>
+                                <field name="attendee_ids"  domain="[('country_id', '=', 'US')]"/>
                             </page>
                         </notebook>
                     </sheet>
@@ -135,6 +136,7 @@
                     <field name="duration" invisible="1"/>
                     <field name="taken_seats" widget="progressbar"/>
                     <field name="seats"/>
+                    <field name="email_sent"/>
                 </tree>
             </field>
         </record>
@@ -226,3 +228,6 @@
         </record>
     </data>
 </odoo>
+
+
+

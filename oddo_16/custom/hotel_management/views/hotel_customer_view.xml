@@ -47,6 +47,20 @@
                                     </form>
                                 </field>
                             </page>
+                            <page string="Payment Details" name="payment details">
+                                <field name="customer_payment_detail_ids">
+                                    <tree>
+                                        <field name="customer_payment"/>
+                                        <field name="payment_type"/>
+                                    </tree>
+                                    <form>
+                                        <group>
+                                            <field name="customer_payment"/>
+                                            <field name="payment_type"/>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
                         </notebook>
                     </sheet>
                 </form>

@@ -1,4 +1,5 @@
 from odoo import models, fields
+from odoo.exceptions import ValidationError
 
 
 class HotelCustomerForm(models.Model):
@@ -24,14 +25,28 @@ class HotelCustomerForm(models.Model):
         ('passport','Passport'),
     ],string='Verification Doucuments',help='Select your verfication id which you have available now')
     customer_room_detail_ids = fields.One2many('customer.room.detail.lines', 'customer_id', string='Room Details')
+    customer_payment_detail_ids = fields.One2many('payment.detail.lines','customer_id',string='Payment Details')
+
 
 class CustomerRoomDetailLines(models.Model):
     _name = 'customer.room.detail.lines'
     _description = 'Customer Room Detai lLines'
-
 
     room_no = fields.Char(string='Room No')
     checkin = fields.Date(string='CheckIn')
     checkout = fields.Date(string='CheckOut')
     customer_id = fields.Many2one('hotel.customer',string='Customer Name')
 
+class PaymentDetailLines(models.Model):
+    _name = 'payment.detail.lines'
+    _description = 'Payment Detail Line'
+
+    customer_payment = fields.Integer(string='Payment')
+    payment_type = fields.Selection([
+        ('cash','Cash'),
+        ('debit card','Debit Card'),
+        ('credit card','Credit Card'),
+        ('upi','UPI'),
+        ('paytm','Paytm')
+    ],string='Type')
+    customer_id= fields.Many2one('hotel.customer',string='Customer Name')

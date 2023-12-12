@@ -10,7 +10,7 @@
             - Hotel Room
             - Banquent Hall
             """,
-    'depends': [],
+    'depends': ["stock", "mail"],
 
     'data': [
         'security/ir.model.access.csv',
@@ -18,6 +18,7 @@
         'views/hotel_restaurant_view.xml',
         'views/hotel_customer_order_view.xml',
         'data/demo_data_hotel_restaurant.xml',
+
     ],
 
     'images' : ['static/description/icon.png'],
